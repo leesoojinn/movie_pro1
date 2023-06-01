@@ -26,17 +26,17 @@ fetch(
     // createMovieCard --> 주어진 영화 정보를 바탕으로 영화 카드를 생성하는 역할
     const createMovieCard = (movie) => {
       return `<div class="movie-card">
-                    <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="The Godfather" onclick="alert('ID: ${movie.id}')"/>
-                    
-                    <div class="movie-info">
-                      <h3>${movie.title}</h3>
-                      <span class="star">${movie.vote}</span>
-                    </div>
-                
-                    <div class="overview">
-                      <p>${movie.overview}</p>
-                    </div>
-                </div>`;
+                      <img src="https://image.tmdb.org/t/p/w500${movie.poster}" alt="The Godfather" onclick="alert('ID: ${movie.id}')"/>
+                      
+                      <div class="movie-info">
+                        <h3>${movie.title}</h3>
+                        <span class="star">⭐${movie.vote}</span>
+                      </div>
+                  
+                      <div class="overview">
+                        <p>${movie.overview}</p>
+                      </div>
+                  </div>`;
     };
 
     // displayMovies  --> 영화 목록을 표시하는 함수
@@ -59,7 +59,6 @@ fetch(
     // 이벤트 발생 시 검색어를 가져와서 movies 배열을 필터링하여 제목에 검색어가 포함된 영화만 나옴.
     // 그 후, displayMovies 함수를 사용하여 필터링된 영화 목록을 표시
     const handleSearch = (event) => {
-      // 질문
       event.preventDefault();
       const searchInput = document
         .querySelector("#search-input")
@@ -67,7 +66,13 @@ fetch(
       const filteredMovies = movies.filter((movie) =>
         movie.title.toLowerCase().includes(searchInput)
       );
-      displayMovies(filteredMovies);
+      // 검색 결과가 없습니다
+      const cardsContainer = document.querySelector("#cards");
+      if (filteredMovies.length === 0) {
+        cardsContainer.innerHTML = "<p>검색 결과가 없습니다.</p>";
+      } else {
+        displayMovies(filteredMovies);
+      }
     };
 
     // 초기 영화 목록 표시
